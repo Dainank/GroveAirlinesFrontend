@@ -2,7 +2,7 @@
     <div class="topnav">
         <router-link class="active" to="/">Home</router-link>
         <router-link to="/about">About</router-link>
-        <router-link to="/Booking">Booking</router-link>
+        <router-link to="/booking">Booking</router-link>
     </div> 
 </template>
 
