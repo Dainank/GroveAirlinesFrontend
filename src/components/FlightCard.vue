@@ -23,9 +23,6 @@ export default {
     "iataDestination",
     "cardCityDestination",
   ],
-  data() {
-    return {};
-  },
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <h1>Booking</h1>
-  <p v-text="$store.state.flights[0]"></p>
+  <!-- <p v-text="$store.state.flights[0]"></p> -->
   <p>Select a flight below:</p>
   <input type="text"> 
   <div class="flight-cards center">
