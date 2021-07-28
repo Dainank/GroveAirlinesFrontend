@@ -1,7 +1,7 @@
 <template>
   <h1>Booking</h1>
   <!-- <p v-text="$store.state.flights[0]"></p> -->
-  <p>Select a flight below:</p>
+  <p>Search Departures and Arrivals:</p>
   <input
     type="text"
     v-model="searchDeparting"
@@ -118,4 +118,16 @@ input {
   margin: 15px;
 }
 
+input[type="text"] {
+  padding: 12px 20px;
+  margin: 8px 4;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid rgba(69, 219, 69, 0.329);
+}
+
+input[type=text]:focus {
+  background-color: rgba(77, 202, 65, 0.233);
+  outline:0;
+}
 </style>
