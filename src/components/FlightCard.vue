@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img src="../assets/paper-plane.png" alt="Avatar" style="width: 100%" />
+    <img :class="largerImage" :src="require(`@/assets/${imageSrc}`)" alt="Avatar" style="width: 100%" />
     <div class="container">
       <h4>
         <b>{{ iataOrigin }}</b>
@@ -22,6 +22,8 @@ export default {
     "cardCityOrigin",
     "iataDestination",
     "cardCityDestination",
+    "imageSrc", // control image location
+    "largerImage",
   ],
 };
 </script>
@@ -48,8 +50,13 @@ export default {
   padding: 2px 16px;
 }
 
-img {
+.standard {
   max-width: 150px;
   max-height: 200px;
+}
+
+.larger {
+  max-width: 250px;
+  max-height: 250px;
 }
 </style>
