@@ -2,10 +2,10 @@
   <h1>Booking</h1>
   <!-- <p v-text="$store.state.flights[0]"></p> -->
   <p>Select a flight below:</p>
-  <input type="text"> 
+  <input type="text" v-model="search" />
   <div class="flight-cards center">
     <FlightCard
-      v-for="flight in $store.state.flights"
+      v-for="flight in filteredPosts"
       :key="flight.id"
       :iata-origin="flight.origin.code"
       :card-city-origin="flight.origin.city"
@@ -26,8 +26,16 @@ export default {
   },
   data() {
     return {
+      search: '',
       flights: [],
     };
+  },
+  computed: {
+        filteredPosts() {
+      return this.$store.state.flights.filter((flight) =>
+        flight.origin.city.toLowerCase().includes(this.search.toLowerCase()) || flight.destination.city.toLowerCase().includes(this.search.toLowerCase())
+      );
+    },
   },
   mounted() {
     axios
