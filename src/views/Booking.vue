@@ -12,17 +12,25 @@
   <div class="flight-cards center">
     <FlightCard
       class="larger-image"
-      v-show="checkDepartingFlightsEmpty"
+      v-show="checkAirportsEmpty"
       iata-origin="No Flights!"
       card-city-origin="Please double check your search."
       image-src="paperPlaneRed.png"
       larger-image="larger"
     />
-    <FlightCard
+    <!-- <FlightCard
       v-for="flight in filteredDeparting"
       :key="flight.id"
       :iata-origin="flight.origin.code"
       :card-city-origin="flight.origin.city"
+      :image-src="imageSrc"
+      larger-image="standard"
+    /> -->
+    <FlightCard
+      v-for="airport in filteredAirports"
+      :key="airport.id"
+      :iata-origin="airport.iata"
+      :card-city-origin="airport.city"
       :image-src="imageSrc"
       larger-image="standard"
     />
@@ -67,17 +75,28 @@ export default {
   },
   method: {},
   computed: {
+    checkAirportsEmpty() {
+      if (this.filteredAirports.length === 0) {
+        return true;
+      }
+      return false;
+    },
     checkArrivingFlightsEmpty() {
       if (this.filteredArriving.length === 0) {
         return true;
       }
       return false;
     },
-    checkDepartingFlightsEmpty() {
-      if (this.filteredDeparting.length === 0) {
-        return true;
-      }
-      return false;
+    // checkDepartingFlightsEmpty() {
+    //   if (this.filteredDeparting.length === 0) {
+    //     return true;
+    //   }
+    //   return false;
+    // },
+    filteredAirports() {
+      return this.$store.state.airports.filter((airport) =>
+        airport.city.toLowerCase().includes(this.searchDeparting.toLowerCase())
+      );
     },
     filteredDeparting() {
       return this.$store.state.flights.filter((flight) =>
@@ -98,6 +117,9 @@ export default {
     axios
       .get("http://localhost:8080/flight")
       .then((response) => (this.$store.state.flights = response.data));
+    axios
+      .get("http://localhost:8080/airport")
+      .then((response) => (this.$store.state.airports = response.data));
   },
 };
 </script>
@@ -107,6 +129,8 @@ export default {
   position: relative;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 10%;
 }
 
 .center {
@@ -126,8 +150,8 @@ input[type="text"] {
   border-bottom: 2px solid rgba(69, 219, 69, 0.329);
 }
 
-input[type=text]:focus {
+input[type="text"]:focus {
   background-color: rgba(77, 202, 65, 0.233);
-  outline:0;
+  outline: 0;
 }
 </style>
