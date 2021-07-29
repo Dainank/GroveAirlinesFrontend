@@ -1,7 +1,13 @@
 <template>
+  <Preloader/>
   <h1>Booking</h1>
   <p>Search Departures and Arrivals:</p>
-  <input type="text" v-model="searchDeparting" placeholder="departing from..."/>
+    <!-- your form inputs goes here-->
+  <input
+    type="text"
+    v-model="searchDeparting"
+    placeholder="departing from..."
+  />
   <input type="text" v-model="searchArriving" placeholder="arriving at..." />
   <h2>Departing Flights</h2>
   <div class="flight-cards center departing">
@@ -53,12 +59,14 @@
 
 <script>
 import axios from "axios";
+import Preloader from '../components/Preloader.vue'
 import FlightCard from "../components/FlightCard.vue";
 
 export default {
   name: "booking",
   components: {
     FlightCard,
+    Preloader,
   },
   data() {
     return {
@@ -67,7 +75,8 @@ export default {
       searchArriving: "",
     };
   },
-  method: {},
+  method: {
+  },
   computed: {
     checkDepartingAirportsEmpty() {
       if (this.filteredDepartingAirports.length === 0) {
@@ -88,9 +97,7 @@ export default {
     },
     filteredArrivingAirports() {
       return this.$store.state.arrivingAirports.filter((airport) =>
-        airport.city
-          .toLowerCase()
-          .includes(this.searchArriving.toLowerCase())
+        airport.city.toLowerCase().includes(this.searchArriving.toLowerCase())
       );
     },
   },
