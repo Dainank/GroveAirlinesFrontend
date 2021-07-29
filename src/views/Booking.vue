@@ -1,18 +1,13 @@
 <template>
   <h1>Booking</h1>
-  <!-- <p v-text="$store.state.flights[0]"></p> -->
   <p>Search Departures and Arrivals:</p>
-  <input
-    type="text"
-    v-model="searchDeparting"
-    placeholder="departing from..."
-  />
+  <input type="text" v-model="searchDeparting" placeholder="departing from..."/>
   <input type="text" v-model="searchArriving" placeholder="arriving at..." />
   <h2>Departing Flights</h2>
-  <div class="flight-cards center">
+  <div class="flight-cards center departing">
     <FlightCard
       class="larger-image"
-      v-show="checkAirportsEmpty"
+      v-show="checkDepartingAirportsEmpty"
       iata-origin="No Flights!"
       card-city-origin="Please double check your search."
       image-src="paperPlaneRed.png"
@@ -27,7 +22,7 @@
       larger-image="standard"
     /> -->
     <FlightCard
-      v-for="airport in filteredAirports"
+      v-for="airport in filteredDepartingAirports"
       :key="airport.id"
       :iata-origin="airport.iata"
       :card-city-origin="airport.city"
@@ -36,7 +31,7 @@
     />
   </div>
   <h2>Arriving Flights</h2>
-  <div class="flight-cards center">
+  <div class="flight-cards center arriving">
     <FlightCard
       class="larger-image"
       v-show="checkArrivingFlightsEmpty"
@@ -46,10 +41,10 @@
       larger-image="larger"
     />
     <FlightCard
-      v-for="flight in filteredArriving"
-      :key="flight.id"
-      :iata-destination="flight.destination.code"
-      :card-city-destination="flight.destination.city"
+      v-for="airport in filteredArrivingAirports"
+      :key="airport.id"
+      :iata-destination="airport.iata"
+      :card-city-destination="airport.city"
       :image-src="imageSrc"
       larger-image="standard"
     />
@@ -70,44 +65,30 @@ export default {
       imageSrc: "paper-plane.png",
       searchDeparting: "",
       searchArriving: "",
-      flights: [],
     };
   },
   method: {},
   computed: {
-    checkAirportsEmpty() {
-      if (this.filteredAirports.length === 0) {
+    checkDepartingAirportsEmpty() {
+      if (this.filteredDepartingAirports.length === 0) {
         return true;
       }
       return false;
     },
     checkArrivingFlightsEmpty() {
-      if (this.filteredArriving.length === 0) {
+      if (this.filteredArrivingAirports.length === 0) {
         return true;
       }
       return false;
     },
-    // checkDepartingFlightsEmpty() {
-    //   if (this.filteredDeparting.length === 0) {
-    //     return true;
-    //   }
-    //   return false;
-    // },
-    filteredAirports() {
+    filteredDepartingAirports() {
       return this.$store.state.airports.filter((airport) =>
         airport.city.toLowerCase().includes(this.searchDeparting.toLowerCase())
       );
     },
-    filteredDeparting() {
-      return this.$store.state.flights.filter((flight) =>
-        flight.origin.city
-          .toLowerCase()
-          .includes(this.searchDeparting.toLowerCase())
-      );
-    },
-    filteredArriving() {
-      return this.$store.state.flights.filter((flight) =>
-        flight.destination.city
+    filteredArrivingAirports() {
+      return this.$store.state.arrivingAirports.filter((airport) =>
+        airport.city
           .toLowerCase()
           .includes(this.searchArriving.toLowerCase())
       );
@@ -119,7 +100,11 @@ export default {
       .then((response) => (this.$store.state.flights = response.data));
     axios
       .get("http://localhost:8080/airport")
-      .then((response) => (this.$store.state.airports = response.data));
+      .then(
+        (response) =>
+          (this.$store.state.airports = response.data) &&
+          (this.$store.state.arrivingAirports = response.data)
+      );
   },
 };
 </script>
