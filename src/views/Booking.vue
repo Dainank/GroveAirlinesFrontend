@@ -1,7 +1,7 @@
 <template>
   <h1>Booking</h1>
-  <!-- <p v-text="$store.state.flights[0]"></p> -->
   <p>Search Departures and Arrivals:</p>
+    <!-- your form inputs goes here-->
   <input
     type="text"
     v-model="searchDeparting"
@@ -9,26 +9,26 @@
   />
   <input type="text" v-model="searchArriving" placeholder="arriving at..." />
   <h2>Departing Flights</h2>
-  <div class="flight-cards center">
+  <div class="flight-cards center departing">
     <FlightCard
       class="larger-image"
-      v-show="checkDepartingFlightsEmpty"
+      v-show="checkDepartingAirportsEmpty"
       iata-origin="No Flights!"
       card-city-origin="Please double check your search."
       image-src="paperPlaneRed.png"
       larger-image="larger"
     />
     <FlightCard
-      v-for="flight in filteredDeparting"
-      :key="flight.id"
-      :iata-origin="flight.origin.code"
-      :card-city-origin="flight.origin.city"
+      v-for="airport in filteredDepartingAirports"
+      :key="airport.id"
+      :iata-origin="airport.iata"
+      :card-city-origin="airport.city"
       :image-src="imageSrc"
       larger-image="standard"
     />
   </div>
   <h2>Arriving Flights</h2>
-  <div class="flight-cards center">
+  <div class="flight-cards center arriving">
     <FlightCard
       class="larger-image"
       v-show="checkArrivingFlightsEmpty"
@@ -38,10 +38,10 @@
       larger-image="larger"
     />
     <FlightCard
-      v-for="flight in filteredArriving"
-      :key="flight.id"
-      :iata-destination="flight.destination.code"
-      :card-city-destination="flight.destination.city"
+      v-for="airport in filteredArrivingAirports"
+      :key="airport.id"
+      :iata-destination="airport.iata"
+      :card-city-destination="airport.city"
       :image-src="imageSrc"
       larger-image="standard"
     />
@@ -62,35 +62,31 @@ export default {
       imageSrc: "paper-plane.png",
       searchDeparting: "",
       searchArriving: "",
-      flights: [],
     };
   },
-  method: {},
+  method: {
+  },
   computed: {
+    checkDepartingAirportsEmpty() {
+      if (this.filteredDepartingAirports.length === 0) {
+        return true;
+      }
+      return false;
+    },
     checkArrivingFlightsEmpty() {
-      if (this.filteredArriving.length === 0) {
+      if (this.filteredArrivingAirports.length === 0) {
         return true;
       }
       return false;
     },
-    checkDepartingFlightsEmpty() {
-      if (this.filteredDeparting.length === 0) {
-        return true;
-      }
-      return false;
-    },
-    filteredDeparting() {
-      return this.$store.state.flights.filter((flight) =>
-        flight.origin.city
-          .toLowerCase()
-          .includes(this.searchDeparting.toLowerCase())
+    filteredDepartingAirports() {
+      return this.$store.state.airports.filter((airport) =>
+        airport.city.toLowerCase().includes(this.searchDeparting.toLowerCase())
       );
     },
-    filteredArriving() {
-      return this.$store.state.flights.filter((flight) =>
-        flight.destination.city
-          .toLowerCase()
-          .includes(this.searchArriving.toLowerCase())
+    filteredArrivingAirports() {
+      return this.$store.state.arrivingAirports.filter((airport) =>
+        airport.city.toLowerCase().includes(this.searchArriving.toLowerCase())
       );
     },
   },
@@ -98,6 +94,13 @@ export default {
     axios
       .get("http://localhost:8080/flight")
       .then((response) => (this.$store.state.flights = response.data));
+    axios
+      .get("http://localhost:8080/airport")
+      .then(
+        (response) =>
+          (this.$store.state.airports = response.data) &&
+          (this.$store.state.arrivingAirports = response.data)
+      );
   },
 };
 </script>
@@ -107,6 +110,8 @@ export default {
   position: relative;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 10%;
 }
 
 .center {
@@ -126,8 +131,8 @@ input[type="text"] {
   border-bottom: 2px solid rgba(69, 219, 69, 0.329);
 }
 
-input[type=text]:focus {
+input[type="text"]:focus {
   background-color: rgba(77, 202, 65, 0.233);
-  outline:0;
+  outline: 0;
 }
 </style>
