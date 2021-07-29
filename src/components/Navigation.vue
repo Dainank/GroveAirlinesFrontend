@@ -1,15 +1,18 @@
 <template>
-    <div class="topnav">
-        <router-link class="active" to="/">Home</router-link>
-        <router-link to="/about">About</router-link>
-        <router-link to="/booking">Booking</router-link>
-    </div> 
+  <div class="topnav">
+    <router-link class="active" to="/">Home</router-link>
+    <router-link to="/about">About</router-link>
+    <router-link to="/booking">Booking</router-link>
+  </div>
 </template>
 
 <script>
+
 export default {
-    name: "navigation",
-}
+  name: "navigation",
+  components: {
+  }
+};
 </script>
 
 <style>
@@ -36,7 +39,7 @@ export default {
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
 }
 </style>

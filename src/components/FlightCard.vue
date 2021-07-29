@@ -17,6 +17,8 @@
 <script>
 export default {
   name: "flight-cards",
+  components: {
+  },
   props: [
     "iataOrigin",
     "cardCityOrigin",

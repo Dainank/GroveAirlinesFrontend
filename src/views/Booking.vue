@@ -1,5 +1,4 @@
 <template>
-  <Preloader/>
   <h1>Booking</h1>
   <p>Search Departures and Arrivals:</p>
     <!-- your form inputs goes here-->
@@ -19,14 +18,6 @@
       image-src="paperPlaneRed.png"
       larger-image="larger"
     />
-    <!-- <FlightCard
-      v-for="flight in filteredDeparting"
-      :key="flight.id"
-      :iata-origin="flight.origin.code"
-      :card-city-origin="flight.origin.city"
-      :image-src="imageSrc"
-      larger-image="standard"
-    /> -->
     <FlightCard
       v-for="airport in filteredDepartingAirports"
       :key="airport.id"
@@ -59,14 +50,12 @@
 
 <script>
 import axios from "axios";
-import Preloader from '../components/Preloader.vue'
 import FlightCard from "../components/FlightCard.vue";
 
 export default {
   name: "booking",
   components: {
     FlightCard,
-    Preloader,
   },
   data() {
     return {
