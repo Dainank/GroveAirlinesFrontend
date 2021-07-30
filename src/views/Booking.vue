@@ -1,7 +1,7 @@
 <template>
   <h1>Booking</h1>
   <p>Search Departures and Arrivals:</p>
-    <!-- your form inputs goes here-->
+  <!-- your form inputs goes here-->
   <input
     type="text"
     v-model="searchDeparting"
@@ -26,6 +26,9 @@
       :image-src="imageSrc"
       larger-image="standard"
     />
+  </div>
+  <div>
+    <button v-on:click="next">See More</button>
   </div>
   <h2>Arriving Flights</h2>
   <div class="flight-cards center arriving">
@@ -62,13 +65,27 @@ export default {
       imageSrc: "paper-plane.png",
       searchDeparting: "",
       searchArriving: "",
+      perPage: 25,
+      pageNumber: 0,
     };
   },
-  method: {
+  methods: {
+    next() {
+      this.pageNumber++;
+    },
+    previous() {
+      this.pageNumber--;
+    },
   },
   computed: {
+    currentPageItems() {
+      return this.$store.state.airports.slice(
+        this.pageNumber * this.perPage,
+        this.pageNumber * this.perPage + 1 + this.perPage
+      );
+    },
     checkDepartingAirportsEmpty() {
-      if (this.filteredDepartingAirports.length === 0) {
+      if (this.currentPageItems.length === 0) {
         return true;
       }
       return false;

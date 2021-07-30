@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div v-on:click="selectCard" class="card" v-bind:class="{ active: isActive}">
     <img :class="largerImage" :src="require(`@/assets/${imageSrc}`)" alt="Avatar" style="width: 100%" />
     <div class="container">
       <h4>
@@ -18,6 +18,17 @@
 export default {
   name: "flight-cards",
   components: {
+  },
+  data (){
+    return {
+      isActive: false,
+    }
+  },
+  methods:{
+        selectCard() {
+      console.log("selected");
+      this.isActive = !this.isActive;
+    },
   },
   props: [
     "iataOrigin",
@@ -60,5 +71,9 @@ export default {
 .larger {
   max-width: 250px;
   max-height: 250px;
+}
+
+.active {
+  background-color: rgb(193, 240, 119);
 }
 </style>
