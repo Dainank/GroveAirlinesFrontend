@@ -1,53 +1,55 @@
 <template>
-  <h1>Booking</h1>
-  <p>Search Departures and Arrivals:</p>
-  <!-- your form inputs goes here-->
-  <input
-    type="text"
-    v-model="searchDeparting"
-    placeholder="departing from..."
-  />
-  <input type="text" v-model="searchArriving" placeholder="arriving at..." />
-  <h2>Departing Flights</h2>
-  <div class="flight-cards center departing">
-    <FlightCard
-      class="larger-image"
-      v-show="checkDepartingAirportsEmpty"
-      iata-origin="No Flights!"
-      card-city-origin="Please double check your search."
-      image-src="paperPlaneRed.png"
-      larger-image="larger"
-    />
-    <FlightCard
-      v-for="airport in filteredDepartingAirports"
-      :key="airport.id"
-      :iata-origin="airport.iata"
-      :card-city-origin="airport.city"
-      :image-src="imageSrc"
-      larger-image="standard"
-    />
-  </div>
   <div>
-    <button v-on:click="next">See More</button>
-  </div>
-  <h2>Arriving Flights</h2>
-  <div class="flight-cards center arriving">
-    <FlightCard
-      class="larger-image"
-      v-show="checkArrivingFlightsEmpty"
-      iata-origin="No Flights!"
-      card-city-origin="Please double check your search."
-      image-src="paperPlaneRed.png"
-      larger-image="larger"
+    <h1>Booking</h1>
+    <p>Search Departures and Arrivals:</p>
+    <!-- your form inputs goes here-->
+    <input
+      type="text"
+      v-model="searchDeparting"
+      placeholder="departing from..."
     />
-    <FlightCard
-      v-for="airport in filteredArrivingAirports"
-      :key="airport.id"
-      :iata-destination="airport.iata"
-      :card-city-destination="airport.city"
-      :image-src="imageSrc"
-      larger-image="standard"
-    />
+    <input type="text" v-model="searchArriving" placeholder="arriving at..." />
+    <h2>Departing Flights</h2>
+    <div class="flight-cards center departing">
+      <FlightCard
+        class="larger-image"
+        v-show="checkDepartingAirportsEmpty"
+        iata-origin="No Flights!"
+        card-city-origin="Please double check your search."
+        image-src="paperPlaneRed.png"
+        larger-image="larger"
+      />
+      <FlightCard
+        v-for="airport in filteredDepartingAirports"
+        :key="airport.id"
+        :iata-origin="airport.iata"
+        :card-city-origin="airport.city"
+        :image-src="imageSrc"
+        larger-image="standard"
+      />
+    </div>
+    <div>
+      <button v-on:click="next">See More</button>
+    </div>
+    <h2>Arriving Flights</h2>
+    <div class="flight-cards center arriving">
+      <FlightCard
+        class="larger-image"
+        v-show="checkArrivingFlightsEmpty"
+        iata-origin="No Flights!"
+        card-city-origin="Please double check your search."
+        image-src="paperPlaneRed.png"
+        larger-image="larger"
+      />
+      <FlightCard
+        v-for="airport in filteredArrivingAirports"
+        :key="airport.id"
+        :iata-destination="airport.iata"
+        :card-city-destination="airport.city"
+        :image-src="imageSrc"
+        larger-image="standard"
+      />
+    </div>
   </div>
 </template>
 
